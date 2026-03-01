@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+
+# Database
+db/student_data.db
+
+# Environment variables
+.env
+
+# VSCode
+.vscode/
