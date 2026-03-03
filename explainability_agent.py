@@ -1,10 +1,25 @@
 import os
 from groq import Groq
+from dotenv import load_dotenv
 
 
 class ExplainabilityAgent:
     def __init__(self, api_key=None, model="llama-3.1-8b-instant"):
-        self.client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+        # Load environment variables from .env file (if present)
+        load_dotenv()
+
+        # Priority:
+        # 1. Explicitly passed api_key
+        # 2. Environment variable
+        api_key = api_key or os.getenv("GROQ_API_KEY")
+
+        if not api_key:
+            raise ValueError(
+                "Groq API key not found. Please set GROQ_API_KEY "
+                "as an environment variable or pass api_key explicitly."
+            )
+
+        self.client = Groq(api_key=api_key)
         self.model = model
 
     def build_explainability_prompt(self, domain_reports):
